@@ -19,6 +19,7 @@
     "vuex": "^3.1.1"
   },
   "devDependencies": {
+    "@mdi/js": "^4.5.95",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",

@@ -22,7 +22,7 @@
               <v-card-actions v-if="recording">
                 <audio :src="recording.sample" controls />
                 <v-btn icon @click="removeRecord(index)" class="button is-dark">
-                  <v-icon>mdi-delete</v-icon>
+                  <v-icon>{{ mdiDelete }}</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-row>
@@ -38,6 +38,7 @@
 import firebase from "firebase/app";
 import { db, storage } from "../plugins/db";
 import AudioRecorder from "./AudioRecorder";
+import { mdiDelete } from "@mdi/js";
 
 const metadata = {
   contentType: "audio/webm"
@@ -45,6 +46,7 @@ const metadata = {
 
 export default {
   data: () => ({
+    mdiDelete,
     recording: null,
     sentenceIndex: 0,
     sentences: [],

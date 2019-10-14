@@ -12,12 +12,13 @@
     @touchend="stopRecording"
     @touchcancel="stopRecording"
   >
-    <v-icon>mdi-microphone</v-icon>
+    <v-icon>{{ mdiMicrophone }}</v-icon>
   </v-btn>
 </template>
 
 <script>
 import ElementMixin from "./mixins/ElementMixin";
+import { mdiMicrophone } from "@mdi/js";
 
 const supportedTypes = ["audio/aac", "audio/ogg", "audio/wav", "audio/webm"];
 export default {
@@ -32,6 +33,7 @@ export default {
   },
   data() {
     return {
+      mdiMicrophone,
       constraints: {
         audio: true,
         video: false

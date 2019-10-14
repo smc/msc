@@ -4,7 +4,7 @@ import Login from "../components/Login";
 import SpeechSampler from "../components/SpeechSampler";
 import store from "@/store";
 
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 Vue.use(Router);
 
