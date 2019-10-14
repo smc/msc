@@ -12,7 +12,7 @@
             </v-row>
             <v-row align="center" justify="center" class="py-10">
               <audio-recorder
-                :mode="$vuetify.breakpoint.mdAndUp ? 'press' : 'hold'"
+                :mode="press"
                 @stream="onStream"
                 @result="onResult"
               />
