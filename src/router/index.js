@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Login from "../components/Login";
-import SpeechSampler from "../components/SpeechSampler";
+import Login from "@/views/Login";
+import SpeechSampler from "@/views/SpeechSampler";
 import store from "@/store";
 
 import firebase from "firebase/app";

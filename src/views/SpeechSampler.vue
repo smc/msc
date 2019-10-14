@@ -37,7 +37,7 @@
 <script>
 import firebase from "firebase/app";
 import { db, storage } from "../plugins/db";
-import AudioRecorder from "./AudioRecorder";
+import AudioRecorder from "../components/AudioRecorder";
 import { mdiDelete } from "@mdi/js";
 
 const metadata = {
