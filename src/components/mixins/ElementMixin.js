@@ -1,4 +1,4 @@
-import RecorderMixin from './RecorderMixin'
+import RecorderMixin from "./RecorderMixin";
 
 /**
  * The element mixin defines the mode behaviour and creates two
@@ -9,22 +9,22 @@ export default {
   props: {
     mode: {
       type: String,
-      default: 'hold',
-      validator: v => ['hold', 'press'].includes(v)
+      default: "hold",
+      validator: v => ["hold", "press"].includes(v)
     }
   },
   methods: {
-    stopRecording () {
-      if (this.mode === 'press') {
-        return
+    stopRecording() {
+      if (this.mode === "press") {
+        return;
       }
-      return this.stop()
+      return this.stop();
     },
-    startRecording () {
-      if (this.isRecording && this.mode === 'press') {
-        return this.stop()
+    startRecording() {
+      if (this.isRecording && this.mode === "press") {
+        return this.stop();
       }
-      return this.start()
+      return this.start();
     }
   }
-}
+};

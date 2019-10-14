@@ -1,9 +1,6 @@
 <template>
   <v-app dark>
-    <v-app-bar
-      app
-      dark
-    >
+    <v-app-bar app dark>
       <v-toolbar-title class="headline text-uppercase">
         Malayalam Speech Corpus
       </v-toolbar-title>
@@ -21,7 +18,6 @@
 </template>
 
 <script>
-
 export default {
   name: "App",
   data: () => ({

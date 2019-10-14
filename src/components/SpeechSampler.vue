@@ -1,66 +1,32 @@
 <template>
-  <v-container
-    fluid
-    class="pa-0 ma-0"
-  >
-    <v-flex
-      xs12
-      lg12
-    >
-      <v-carousel
-        show-arrows
-        v-model="sentenceIndex"
-      >
+  <v-container fluid class="pa-0 ma-0">
+    <v-flex xs12 lg12>
+      <v-carousel show-arrows v-model="sentenceIndex">
         <v-carousel-item
-          v-for="(item,id) in sentences"
+          v-for="(item, id) in sentences"
           :key="`carousel-${id}`"
         >
-          <v-sheet
-            height="100%"
-            tile
-          >
-            <v-row
-              align="center"
-              justify="center"
-              class="py-10"
-            >
+          <v-sheet height="100%" tile>
+            <v-row align="center" justify="center" class="py-10">
               <v-card-title>{{ item.sentence }}</v-card-title>
             </v-row>
-            <v-row
-              align="center"
-              justify="center"
-              class="py-10"
-            >
+            <v-row align="center" justify="center" class="py-10">
               <audio-recorder
-                :mode="$vuetify.breakpoint.mdAndUp?'press':'hold'"
+                :mode="$vuetify.breakpoint.mdAndUp ? 'press' : 'hold'"
                 @stream="onStream"
                 @result="onResult"
               />
             </v-row>
 
-            <v-row
-              align="end"
-              justify="center"
-              class="py-10"
-            >
+            <v-row align="end" justify="center" class="py-10">
               <v-card-actions v-if="recording">
-                <audio
-                  :src="recording.sample"
-                  controls
-                />
-                <v-btn
-                  icon
-                  @click="removeRecord(index)"
-                  class="button is-dark"
-                >
+                <audio :src="recording.sample" controls />
+                <v-btn icon @click="removeRecord(index)" class="button is-dark">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-row>
-            <v-progress-linear
-              v-if="uploading"
-              :value="progress"
-            />
+            <v-progress-linear v-if="uploading" :value="progress" />
           </v-sheet>
         </v-carousel-item>
       </v-carousel>
@@ -120,7 +86,7 @@ export default {
           querySnapshot.forEach(doc => {
             console.log(doc.id, " => ", doc.data());
             this.recording = doc.data();
-            this.recording['id'] = doc.id;
+            this.recording["id"] = doc.id;
             console.log(this.recording);
           });
         })
@@ -188,7 +154,7 @@ export default {
               .add(newData)
               .then(docRef => {
                 this.recording = newData;
-                this.recording['id'] = docRef.id;
+                this.recording["id"] = docRef.id;
               });
           });
         }

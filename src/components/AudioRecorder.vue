@@ -2,7 +2,7 @@
   <v-btn
     v-if="isSupported"
     class="vue-audio-recorder"
-    :color="isRecording?'error':'success'"
+    :color="isRecording ? 'error' : 'success'"
     fab
     x-large
     @mousedown="startRecording"
