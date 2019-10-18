@@ -21,10 +21,10 @@ export default {
       .auth()
       .signInWithRedirect(provider)
       .then(function(result) {
-        if (result.credential) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          var token = result.credential.accessToken;
-        }
+        // if (result.credential) {
+        //   // This gives you a Google Access Token. You can use it to access the Google API.
+        //   var token = result.credential.accessToken;
+        // }
         // The signed-in user info.
         const user = result.user;
         this.$store.commit("setUser", user);
@@ -35,6 +35,7 @@ export default {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
+        // eslint-disable-next-line no-console
         console.error(errorCode, errorMessage);
       });
 

@@ -64,8 +64,8 @@
       </v-carousel>
     </v-flex>
     <v-flex xs12 lg12>
-      <v-icon>{{ mdiAccountCircle }}</v-icon
-      >{{ username }}
+      <v-icon>{{ mdiAccountCircle }}</v-icon>
+      {{ username }}
     </v-flex>
   </v-container>
 </template>
@@ -98,7 +98,7 @@ export default {
   },
   watch: {
     sentenceIndex: function() {
-      console.log("Current sentence", this.sentenceIndex);
+      // console.log("Current sentence", this.sentenceIndex);
       this.fetchRecording();
     }
   },
@@ -130,14 +130,14 @@ export default {
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            console.log(doc.id, " => ", doc.data());
+            // console.log(doc.id, " => ", doc.data());
             this.recording = doc.data();
             this.recording["id"] = doc.id;
-            console.log(this.recording);
+            // console.log(this.recording);
           });
         })
-        .catch(function(error) {
-          console.log("Error getting documents: ", error);
+        .catch(function() {
+          // console.log("Error getting documents: ", error);
         });
     },
     onResult({ blob, src }) {
@@ -167,20 +167,22 @@ export default {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           this.progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + this.progress + "% done");
+          // console.log("Upload is " + this.progress + "% done");
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
-              console.log("Upload is paused");
+              // console.log("Upload is paused");
               break;
             case firebase.storage.TaskState.RUNNING:
-              console.log("Upload is running");
+              // console.log("Upload is running");
               break;
           }
         },
         error => {
-          this.uploading = false;
+          if (error) {
+            this.uploading = false;
+          }
           // Handle unsuccessful uploads
-          console.error(error.message);
+          // console.error(error.message);
         },
         () => {
           this.uploading = false;
