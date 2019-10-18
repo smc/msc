@@ -1,5 +1,9 @@
 <template>
   <v-container fluid class="pa-0 ma-0">
+    <template v-if="showError">
+      Your browser doesn’t support audio recording or you’ve blocked microphone
+      access.
+    </template>
     <v-flex xs12 lg12>
       <v-carousel show-arrows v-model="sentenceIndex">
         <v-carousel-item
@@ -7,18 +11,46 @@
           :key="`carousel-${id}`"
         >
           <v-sheet height="100%" tile>
-            <v-row align="center" justify="center" class="py-10">
+            <v-row align="center" justify="center" class="py-2">
               <v-card-title>{{ item.sentence }}</v-card-title>
             </v-row>
             <v-row align="center" justify="center" class="py-10">
-              <audio-recorder
-                mode="press"
-                @stream="onStream"
-                @result="onResult"
-              />
+              <vue-dictaphone @stop="onResult($event)">
+                <template
+                  slot-scope="{ isRecording, startRecording, stopRecording }"
+                >
+                  <v-row align="center" justify="center" class="py-2">
+                    <v-btn
+                      class="vue-audio-recorder"
+                      v-if="!isRecording"
+                      color="success"
+                      fab
+                      x-large
+                      @click="startRecording"
+                    >
+                      <v-icon>{{ mdiMicrophone }}</v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-else
+                      class="vue-audio-recorder"
+                      color="error"
+                      fab
+                      x-large
+                      @click="stopRecording"
+                    >
+                      <v-icon>{{ mdiMicrophone }}</v-icon>
+                    </v-btn>
+                  </v-row>
+                  <v-row align="center" justify="center">
+                    <vue-dictaphone-spectrum-analyser
+                      :width="$vuetify.breakpoint.smAndDown ? 300 : 500"
+                    />
+                  </v-row>
+                </template>
+              </vue-dictaphone>
             </v-row>
 
-            <v-row align="end" justify="center" class="py-10">
+            <v-row align="end" justify="center" class="py-2">
               <v-card-actions v-if="recording">
                 <audio :src="recording.sample" controls />
                 <v-btn icon @click="removeRecord(index)" class="button is-dark">
@@ -41,8 +73,7 @@
 <script>
 import firebase from "firebase/app";
 import { db, storage } from "../plugins/db";
-import AudioRecorder from "../components/AudioRecorder";
-import { mdiDelete, mdiAccountCircle } from "@mdi/js";
+import { mdiDelete, mdiMicrophone, mdiAccountCircle } from "@mdi/js";
 
 const metadata = {
   contentType: "audio/webm"
@@ -53,16 +84,15 @@ export default {
   data: () => ({
     mdiDelete,
     mdiAccountCircle,
+    mdiMicrophone,
     recording: null,
     sentenceIndex: 0,
     sentences: [],
     speech: {},
     progress: 0,
-    uploading: false
+    uploading: false,
+    showError: false
   }),
-  components: {
-    AudioRecorder
-  },
   firestore: {
     sentences: db.collection("sentences")
   },
@@ -78,7 +108,10 @@ export default {
     })
   },
   methods: {
-    removeRecord(index) {
+    handleError() {
+      this.showError = true;
+    },
+    removeRecord() {
       if (this.recording && this.recording.id) {
         const recordingRef = db.collection("speech").doc(this.recording.id);
         if (recordingRef) recordingRef.delete();
@@ -107,15 +140,12 @@ export default {
           console.log("Error getting documents: ", error);
         });
     },
-    onStream(stream) {
-      console.log("Got a stream object:", stream);
-    },
-    onResult(blobData) {
+    onResult({ blob, src }) {
       this.removeRecord();
       this.recording = {
-        sample: window.URL.createObjectURL(blobData)
+        sample: src
       };
-      this.persistFile(blobData);
+      this.persistFile(blob);
     },
     uuid() {
       let dt = new Date().getTime();
