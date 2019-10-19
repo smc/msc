@@ -6,7 +6,7 @@
         Malayalam Speech Corpus
       </v-toolbar-title>
       <v-spacer />
-      <v-menu v-if="username" left bottom>
+      <v-menu v-if="user" left bottom>
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
             <v-icon>{{ mdiAccountCircle }}</v-icon>
@@ -17,7 +17,7 @@
           <v-list-item>
             <v-list-item-title>
               <v-icon>{{ mdiAccountCircle }}</v-icon>
-              {{ username }}</v-list-item-title
+              {{ user.displayName }}</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">
@@ -39,6 +39,7 @@
 import { mdiExitRun, mdiAccountCircle, mdiTextToSpeech } from "@mdi/js";
 import { mapState } from "vuex";
 import firebase from "firebase/app";
+import { db } from "./plugins/db";
 
 export default {
   name: "App",
@@ -49,10 +50,25 @@ export default {
   }),
   computed: {
     ...mapState({
-      username: state => state.user && state.user.displayName
+      user: state => state.user
     })
   },
+  watch: {
+    user: function() {
+      if (this.user) {
+        this.saveUser(this.user);
+      }
+    }
+  },
   methods: {
+    saveUser(user) {
+      db.collection("users")
+        .doc(user.uid)
+        .set({
+          name: user.displayName,
+          email: user.email
+        });
+    },
     logout() {
       firebase
         .auth()
