@@ -15,7 +15,7 @@
               <v-card-title>{{ item.sentence }}</v-card-title>
             </v-row>
             <v-row align="center" justify="center" class="py-10">
-              <vue-dictaphone @stop="onResult($event)">
+              <vue-dictaphone @stop="onRecordComplete($event)">
                 <template
                   slot-scope="{ isRecording, startRecording, stopRecording }"
                 >
@@ -53,7 +53,7 @@
             <v-row align="end" justify="center" class="py-2">
               <v-card-actions v-if="recording">
                 <audio :src="recording.sample" controls />
-                <v-btn icon @click="removeRecord(index)" class="button is-dark">
+                <v-btn icon @click="removeRecord(index)">
                   <v-icon>{{ mdiDelete }}</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -90,9 +90,17 @@ export default {
   firestore: {
     sentences: db.collection("sentences")
   },
+  computed: {
+    userId() {
+      return firebase.auth().currentUser.uid;
+    },
+    currSentenceId() {
+      return this.sentences[this.sentenceIndex].id;
+    }
+  },
   watch: {
     sentenceIndex: function() {
-      // console.log("Current sentence", this.sentenceIndex);
+      console.log(`Current sentence: ${this.sentenceIndex}`);
       this.fetchRecording();
     }
   },
@@ -113,23 +121,20 @@ export default {
     },
     fetchRecording() {
       this.recording = null;
-      const currSentenceId = this.sentences[this.sentenceIndex].id;
       db.collection("speech")
-        .where("sentence", "==", currSentenceId)
+        .where("sentence", "==", this.currSentenceId)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            // console.log(doc.id, " => ", doc.data());
             this.recording = doc.data();
             this.recording["id"] = doc.id;
-            // console.log(this.recording);
           });
         })
-        .catch(function() {
-          // console.log("Error getting documents: ", error);
+        .catch(error => {
+          console.log("Error getting documents: ", error);
         });
     },
-    onResult({ blob, src }) {
+    onRecordComplete({ blob, src }) {
       this.removeRecord();
       this.recording = {
         sample: src
@@ -152,6 +157,7 @@ export default {
       this.uploading = true;
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
+        // Snapshot observer
         snapshot => {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           this.progress =
@@ -159,40 +165,44 @@ export default {
           // console.log("Upload is " + this.progress + "% done");
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
-              // console.log("Upload is paused");
+              console.log("Upload is paused");
               break;
             case firebase.storage.TaskState.RUNNING:
-              // console.log("Upload is running");
+              console.log("Upload is running");
               break;
           }
         },
+        // Error handler
         error => {
           if (error) {
             this.uploading = false;
           }
           // Handle unsuccessful uploads
-          // console.error(error.message);
+          console.error(error.message);
         },
+        // Success handler
         () => {
-          this.uploading = false;
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            const newData = {
-              sample: downloadURL,
-              fileName,
-              sentence: `${this.sentences[this.sentenceIndex].id}`,
-              user: firebase.auth().currentUser.uid
-            };
-            this.recording = newData;
-            db.collection("speech")
-              .add(newData)
-              .then(docRef => {
-                this.recording = newData;
-                this.recording["id"] = docRef.id;
-              });
+            this.onUploadComplete(downloadURL, fileName);
           });
         }
       );
+    },
+    onUploadComplete: function(downloadURL, fileName) {
+      const newRecording = {
+        sample: downloadURL,
+        fileName,
+        sentence: this.currSentenceId,
+        user: this.userId
+      };
+      this.recording = newRecording;
+      db.collection("speech")
+        .add(this.recording)
+        .then(docRef => {
+          this.recording["id"] = docRef.id;
+        });
+      this.uploading = false;
     }
   }
 };
