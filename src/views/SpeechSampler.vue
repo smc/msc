@@ -108,10 +108,13 @@ export default {
     handleError() {
       this.showError = true;
     },
+    // Remove any existing recording for this user and this sentence.
     removeRecord() {
       if (this.recording && this.recording.id) {
         const recordingRef = db.collection("speech").doc(this.recording.id);
-        if (recordingRef) recordingRef.delete();
+        if (recordingRef) {
+          recordingRef.delete();
+        }
         const fileRef = storage.child(this.recording.fileName);
         if (fileRef) {
           fileRef.delete();
@@ -123,6 +126,7 @@ export default {
       this.recording = null;
       db.collection("speech")
         .where("sentence", "==", this.currSentenceId)
+        .where("user", "==", this.userId)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
@@ -131,10 +135,11 @@ export default {
           });
         })
         .catch(error => {
-          console.log("Error getting documents: ", error);
+          console.log(`Error getting documents: ${error}`);
         });
     },
     onRecordComplete({ blob, src }) {
+      // Remove any existing recording for this user and this sentence.
       this.removeRecord();
       this.recording = {
         sample: src
