@@ -76,6 +76,7 @@ export default {
         .then(() => {
           this.$store.commit("setUser", null);
           this.$store.commit("setIsAuthenticated", false);
+          this.$router.push("/login");
         });
     }
   }
