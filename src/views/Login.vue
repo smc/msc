@@ -1,55 +1,36 @@
 <template>
-  <section>
-    <h5 class="center-align">
-      Redirecting...
-    </h5>
-  </section>
+  <v-container fluid>
+    <v-layout justify-center wrap class="my-4" align-center>
+      <section>
+        <v-btn x-large @click="login">
+          <v-icon color="primary">{{ mdiGoogle }}</v-icon> Login using Google
+        </v-btn>
+      </section>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import { mdiGoogle } from "@mdi/js";
 
 export default {
   name: "Login",
   data() {
-    return {};
+    return { mdiGoogle, authProvider: new firebase.auth.GoogleAuthProvider() };
   },
-  mounted() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithRedirect(provider)
-      .then(function(result) {
-        // if (result.credential) {
-        //   // This gives you a Google Access Token. You can use it to access the Google API.
-        //   var token = result.credential.accessToken;
-        // }
-        // The signed-in user info.
-        const user = result.user;
-        this.$store.commit("setUser", user);
-        this.$store.commit("setIsAuthenticated", true);
-        this.$router.push("/");
-      })
-      .catch(error => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // eslint-disable-next-line no-console
-        console.error(errorCode, errorMessage);
-      });
-
+  mounted: function() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.$store.commit("setUser", user);
-        this.$store.commit("setIsAuthenticated", true);
-        this.$router.push("/");
-      } else {
-        // Show sign in screen with button above.
+        this.$router.replace("/record");
       }
     });
+  },
+  methods: {
+    login() {
+      firebase.auth().signInWithRedirect(this.authProvider);
+    }
   }
 };
 </script>
-
-<style></style>

@@ -63,27 +63,21 @@
         </v-carousel-item>
       </v-carousel>
     </v-flex>
-    <v-flex xs12 lg12>
-      <v-icon>{{ mdiAccountCircle }}</v-icon>
-      {{ username }}
-    </v-flex>
   </v-container>
 </template>
 
 <script>
 import firebase from "firebase/app";
 import { db, storage } from "../plugins/db";
-import { mdiDelete, mdiMicrophone, mdiAccountCircle } from "@mdi/js";
+import { mdiDelete, mdiMicrophone } from "@mdi/js";
 
 const metadata = {
   contentType: "audio/webm"
 };
-import { mapState } from "vuex";
 
 export default {
   data: () => ({
     mdiDelete,
-    mdiAccountCircle,
     mdiMicrophone,
     recording: null,
     sentenceIndex: 0,
@@ -101,11 +95,6 @@ export default {
       // console.log("Current sentence", this.sentenceIndex);
       this.fetchRecording();
     }
-  },
-  computed: {
-    ...mapState({
-      username: state => state.user.displayName
-    })
   },
   methods: {
     handleError() {

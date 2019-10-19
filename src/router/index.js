@@ -3,7 +3,6 @@ import Router from "vue-router";
 import Login from "@/views/Login";
 import SpeechSampler from "@/views/SpeechSampler";
 import store from "@/store";
-
 import firebase from "firebase/app";
 
 Vue.use(Router);
@@ -12,37 +11,43 @@ let router = new Router({
   mode: "history",
   routes: [
     {
+      path: "/",
+      redirect: "/login"
+    },
+    {
       path: "/login",
       name: "Login",
       component: Login,
       meta: {
-        guest: true
+        requiresAuth: false
       }
     },
     {
-      path: "/",
-      name: "home",
+      path: "/record",
+      name: "Record",
       component: SpeechSampler,
       meta: {
-        authRequired: true
+        requiresAuth: true
       }
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.authRequired)) {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        store.commit("setUser", user);
-        store.commit("setIsAuthenticated", true);
-        next();
-      } else {
-        next({
-          path: "/login"
-        });
-      }
-    });
+  let currentUser = firebase.auth().currentUser;
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (currentUser) {
+    console.log(`${currentUser.displayName} Logged in`);
+    store.commit("setUser", currentUser);
+    store.commit("setIsAuthenticated", true);
+    requiresAuth = false;
+  }
+  if (requiresAuth) {
+    if (!currentUser) {
+      next("login");
+    } else {
+      next("record");
+    }
   } else {
     next();
   }
