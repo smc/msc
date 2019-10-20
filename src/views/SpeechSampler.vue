@@ -5,14 +5,14 @@
       access.
     </template>
     <v-flex xs12 lg12>
-      <v-carousel show-arrows v-model="sentenceIndex">
+      <v-carousel show-arrows hide-delimiters v-model="sentenceIndex">
         <v-carousel-item
           v-for="(item, id) in sentences"
           :key="`carousel-${id}`"
         >
           <v-sheet height="100%" tile>
             <v-row align="center" justify="center" class="py-2">
-              <v-card-title>{{ item.sentence }}</v-card-title>
+              <v-card-title class="title">{{ item.sentence }}</v-card-title>
             </v-row>
             <v-row align="center" justify="center" class="py-10">
               <vue-dictaphone @stop="onRecordComplete($event)">
