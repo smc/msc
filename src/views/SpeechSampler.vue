@@ -19,7 +19,7 @@
                 <template
                   slot-scope="{ isRecording, startRecording, stopRecording }"
                 >
-                  <v-row align="center" justify="center" class="py-2">
+                  <v-row align="center" justify="center" class="py-1">
                     <v-btn
                       class="vue-audio-recorder"
                       v-if="!isRecording"
@@ -43,14 +43,19 @@
                   </v-row>
                   <v-row align="center" justify="center">
                     <vue-dictaphone-spectrum-analyser
+                      v-if="isRecording"
                       :width="$vuetify.breakpoint.smAndDown ? 300 : 500"
                     />
+                    <p v-else>
+                      To start recording, click the record button. To stop click
+                      again.
+                    </p>
                   </v-row>
                 </template>
               </vue-dictaphone>
             </v-row>
 
-            <v-row align="end" justify="center" class="py-2">
+            <v-row align="end" justify="center" class="py-1">
               <v-card-actions v-if="recording">
                 <audio :src="recording.sample" controls />
                 <v-btn icon @click="removeRecord(index)">
