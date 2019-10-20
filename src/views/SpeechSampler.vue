@@ -46,7 +46,7 @@
                       v-if="isRecording"
                       :width="$vuetify.breakpoint.smAndDown ? 300 : 500"
                     />
-                    <p v-else>
+                    <p v-else class="caption">
                       To start recording, click the record button. To stop click
                       again.
                     </p>
