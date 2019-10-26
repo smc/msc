@@ -96,7 +96,7 @@ def save_data(docs, outfile):
                 if key=='id':
                     values.append(doc.id)
                 else:
-                    values.append(docDict[key])
+                    values.append(docDict.get(key,'default'))
                 if key=='fileName':
                     download_sample(docDict[key])
             tsvout.writerow(values)
