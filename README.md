@@ -4,7 +4,7 @@ This project attempts to create a free licensed speech corpus for various resear
 
 ## Contributing
 
-1. Go to [msc.smc.org.in](msc.smc.org.in). Login using your google account
+1. Go to [msc.smc.org.in](//msc.smc.org.in). Login using your google account
 2. Once logged in, you will see a sentence and a mic icon. Press mic icon to start recording
 3. Read the sentence as much as natural. Your accent is totally acceptable.
 4. You can re-record if you are not satisfied with the recording. You can always listen to what you recorded.
