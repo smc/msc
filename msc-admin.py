@@ -19,6 +19,13 @@ def parse_args(args):
         help="Input text file containing sentences per line",
         nargs="?",
     )
+    parser.add_argument(
+        "-c",
+        "--category",
+        help="Category of the input text corpus.",
+        default="default",
+        nargs="?",
+    )
     return parser.parse_args(args)
 
 
@@ -38,25 +45,34 @@ class MSCFirestore:
         self.speech = db.collection("speech")
         self.users = db.collection("users")
 
-    def add_sentence(self, sentence):
+    def add_sentence(self, sentence, category):
         docs = self.sentences.where('sentence', '==', sentence).stream()
         exist = False
         for doc in docs:
             exist = True
-            print("[Skip] %s %s" % (doc.id, sentence))
+            if category != doc.to_dict()['category']:
+                print("[Edit] %s %s %s" % (doc.id, sentence, category))
+                self.sentences.document(doc.id).set({
+                        "sentence": sentence,
+                        "category": category
+                    })
+            else:
+                print("[Skip] %s %s %s" % (doc.id, sentence, category))
+
         if not exist:
             self.sentences.add({
-                "sentence": sentence
+                "sentence": sentence,
+                "category": category
             })
-            print("[Add] %s" % (sentence))
+            print("[Add] %s %s" % (sentence, category))
 
     def remove_sentence(self, key):
         self.sentences.child(key).delete()
 
-def process_input_file(infile, dbref):
+def process_input_file(infile, category, dbref):
     with open(infile, "r") as file:
         for sentence in file:
-            dbref.add_sentence(sentence.rstrip())
+            dbref.add_sentence(sentence.rstrip(), category)
 
 def download_sample(fileName):
     blob = storage.bucket().get_blob(fileName)
@@ -93,7 +109,7 @@ def main(args=None):
     options = parse_args(args)
     firestore = MSCFirestore()
     if options.infile:
-        process_input_file(options.infile, firestore )
+        process_input_file(options.infile, options.category, firestore )
     else:
         sentences=firestore.sentences.stream()
         save_data(sentences, 'sentences.tsv')
