@@ -32,7 +32,7 @@
     <v-content>
       <router-view />
     </v-content>
-    <v-bottom-navigation v-if="user" horizontal>
+    <v-bottom-navigation v-if="user" horizontal app>
       <v-btn value="record" to="record">
         <span>Record</span>
         <v-icon>{{ mdiMicrophone }}</v-icon>

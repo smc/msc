@@ -5,12 +5,12 @@
       access.
     </template>
     <v-flex xs12 lg12>
-      <v-carousel show-arrows hide-delimiters v-model="speechIndex">
+      <v-carousel progress show-arrows hide-delimiters v-model="speechIndex">
         <v-carousel-item
           v-for="(speech, id) in speeches"
           :key="`carousel-${id}`"
         >
-          <v-sheet height="100%" tile>
+          <v-sheet tile min-width="100%" min-height="100%">
             <v-row align="center" justify="center" class="py-2">
               <v-card-title class="title">{{ sentence }}</v-card-title>
             </v-row>

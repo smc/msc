@@ -5,13 +5,13 @@
       access.
     </template>
     <v-flex xs12 lg12>
-      <v-carousel show-arrows hide-delimiters v-model="sentenceIndex">
+      <v-carousel progress show-arrows hide-delimiters v-model="sentenceIndex">
         <v-carousel-item
           v-for="(item, id) in sentences"
           :key="`carousel-${id}`"
         >
-          <v-sheet height="100%" tile>
-            <v-row align="center" justify="center" class="py-2">
+          <v-sheet tile class="pa-2" min-width="100%" min-height="100%">
+            <v-row align="center" justify="center">
               <v-card-title class="title">{{ item.sentence }}</v-card-title>
             </v-row>
             <v-row align="center" justify="center" class="py-10">
@@ -46,33 +46,26 @@
                       v-if="isRecording"
                       :width="$vuetify.breakpoint.smAndDown ? 300 : 500"
                     />
-                    <p v-else class="caption">
-                      To start recording, click the record button. To stop click
-                      again.
-                    </p>
                   </v-row>
                 </template>
               </vue-dictaphone>
             </v-row>
 
-            <v-row align="end" justify="center" class="py-1 mx-6">
+            <v-row align="end" justify="center" class="py-1 mx-2">
               <v-card-actions v-if="recording">
+                <v-badge left overlap v-if="recording.vote" class="mx-2">
+                  <template v-slot:badge>{{ recording.vote }}</template>
+                  <v-icon>{{ mdiThumbUp }}</v-icon>
+                </v-badge>
                 <audio :src="recording.sample" controls />
-              </v-card-actions>
-            </v-row>
 
-            <v-row align="end" justify="center" class="py-1 mx-6">
-              <v-card-actions v-if="recording">
-                <span v-if="recording.vote" class="caption">
-                  {{ recording.vote }} Votes
-                </span>
-                <v-btn fab @click="removeRecord(index)">
+                <v-btn fab @click="removeRecord(index)" class="mx-2">
                   <v-icon color="error">{{ mdiDelete }}</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-row>
-            <v-progress-linear v-if="uploading" :value="progress" />
           </v-sheet>
+          <v-progress-linear v-if="uploading" :value="progress" />
         </v-carousel-item>
       </v-carousel>
     </v-flex>
@@ -82,7 +75,7 @@
 <script>
 import firebase from "firebase/app";
 import { db, storage } from "../plugins/db";
-import { mdiDelete, mdiMicrophone } from "@mdi/js";
+import { mdiDelete, mdiThumbUp, mdiMicrophone } from "@mdi/js";
 
 const metadata = {
   contentType: "audio/webm"
@@ -91,6 +84,7 @@ const metadata = {
 export default {
   data: () => ({
     mdiDelete,
+    mdiThumbUp,
     mdiMicrophone,
     recording: null,
     sentenceIndex: 0,
@@ -232,3 +226,9 @@ export default {
   }
 };
 </script>
+
+<style>
+audio {
+  width: 150px;
+}
+</style>
