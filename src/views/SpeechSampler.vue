@@ -216,7 +216,8 @@ export default {
         sample: downloadURL,
         fileName,
         sentence: this.currSentenceId,
-        user: this.userId
+        user: this.userId,
+        time: +new Date()
       };
       this.recording = newRecording;
       db.collection("speech")
