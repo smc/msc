@@ -20,12 +20,6 @@
               {{ user.displayName }}</v-list-item-title
             >
           </v-list-item>
-          <v-list-item to="review">
-            <v-list-item-title>
-              <v-icon>{{ mdiCommentCheckOutline }}</v-icon>
-              Review</v-list-item-title
-            >
-          </v-list-item>
           <v-list-item @click="logout">
             <v-list-item-title>
               <v-icon>{{ mdiExitRun }}</v-icon>
@@ -38,6 +32,17 @@
     <v-content>
       <router-view />
     </v-content>
+    <v-bottom-navigation>
+      <v-btn value="record" to="record">
+        <span>Record</span>
+        <v-icon>{{ mdiMicrophone }}</v-icon>
+      </v-btn>
+
+      <v-btn value="review" to="review">
+        <span>Review</span>
+        <v-icon>{{ mdiCommentCheckOutline }}</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
@@ -45,6 +50,7 @@
 import {
   mdiExitRun,
   mdiCommentCheckOutline,
+  mdiMicrophone,
   mdiAccountCircle,
   mdiTextToSpeech
 } from "@mdi/js";
@@ -57,6 +63,7 @@ export default {
   data: () => ({
     mdiTextToSpeech,
     mdiExitRun,
+    mdiMicrophone,
     mdiAccountCircle,
     mdiCommentCheckOutline
   }),
