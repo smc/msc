@@ -55,7 +55,7 @@
               </vue-dictaphone>
             </v-row>
 
-            <v-row align="end" justify="center" class="py-1">
+            <v-row align="end" justify="center" class="py-1 mx-6">
               <v-card-actions v-if="recording">
                 <v-badge class="mx-5">
                   <template v-slot:badge>{{ recording.vote || 0 }}</template>
