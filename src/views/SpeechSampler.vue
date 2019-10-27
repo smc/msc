@@ -57,12 +57,16 @@
 
             <v-row align="end" justify="center" class="py-1 mx-6">
               <v-card-actions v-if="recording">
-                <v-badge class="mx-5">
-                  <template v-slot:badge>{{ recording.vote || 0 }}</template>
-                  <v-icon>{{ mdiThumbUp }}</v-icon>
-                </v-badge>
                 <audio :src="recording.sample" controls />
-                <v-btn icon @click="removeRecord(index)">
+              </v-card-actions>
+            </v-row>
+
+            <v-row align="end" justify="center" class="py-1 mx-6">
+              <v-card-actions v-if="recording">
+                <span v-if="recording.vote" class="caption">
+                  {{ recording.vote }} Votes
+                </span>
+                <v-btn fab @click="removeRecord(index)">
                   <v-icon color="error">{{ mdiDelete }}</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -78,7 +82,7 @@
 <script>
 import firebase from "firebase/app";
 import { db, storage } from "../plugins/db";
-import { mdiDelete, mdiMicrophone, mdiThumbUp } from "@mdi/js";
+import { mdiDelete, mdiMicrophone } from "@mdi/js";
 
 const metadata = {
   contentType: "audio/webm"
@@ -88,7 +92,6 @@ export default {
   data: () => ({
     mdiDelete,
     mdiMicrophone,
-    mdiThumbUp,
     recording: null,
     sentenceIndex: 0,
     sentences: [],
