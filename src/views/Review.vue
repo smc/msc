@@ -12,12 +12,10 @@
         >
           <v-sheet tile min-width="100%" min-height="100%">
             <v-row align="center" justify="center" class="py-2">
-              <v-card-title class="title">{{ sentence }}</v-card-title>
+              <h2 class="title text-center">{{ sentence }}</h2>
             </v-row>
             <v-row align="end" justify="center" class="py-1">
-              <v-card-actions>
-                <audio :src="speech.sample" controls />
-              </v-card-actions>
+              <audio :src="speech.sample" controls />
             </v-row>
             <v-row align="center" justify="center" class="py-10">
               <v-btn

@@ -12,7 +12,7 @@
         >
           <v-sheet tile class="pa-2" min-width="100%" min-height="100%">
             <v-row align="center" justify="center">
-              <v-card-title class="title">{{ item.sentence }}</v-card-title>
+              <h2 class="title text-center">{{ item.sentence }}</h2>
             </v-row>
             <v-row align="center" justify="center" class="py-10">
               <vue-dictaphone @stop="onRecordComplete($event)">
@@ -51,18 +51,21 @@
               </vue-dictaphone>
             </v-row>
 
-            <v-row align="end" justify="center" class="py-1 mx-2">
-              <v-card-actions v-if="recording">
-                <v-badge left overlap v-if="recording.vote" class="mx-2">
-                  <template v-slot:badge>{{ recording.vote }}</template>
-                  <v-icon>{{ mdiThumbUp }}</v-icon>
-                </v-badge>
-                <audio :src="recording.sample" controls />
+            <v-row
+              v-if="recording"
+              align="end"
+              justify="center"
+              class="py-1 mx-2"
+            >
+              <v-badge left overlap v-if="recording.vote" class="mx-2">
+                <template v-slot:badge>{{ recording.vote }}</template>
+                <v-icon>{{ mdiThumbUp }}</v-icon>
+              </v-badge>
+              <audio :src="recording.sample" controls />
 
-                <v-btn fab @click="removeRecord(index)" class="mx-2">
-                  <v-icon color="error">{{ mdiDelete }}</v-icon>
-                </v-btn>
-              </v-card-actions>
+              <v-btn fab @click="removeRecord(index)" class="mx-2">
+                <v-icon color="error">{{ mdiDelete }}</v-icon>
+              </v-btn>
             </v-row>
           </v-sheet>
           <v-progress-linear v-if="uploading" :value="progress" />
