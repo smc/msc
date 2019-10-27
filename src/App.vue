@@ -20,6 +20,12 @@
               {{ user.displayName }}</v-list-item-title
             >
           </v-list-item>
+          <v-list-item to="review">
+            <v-list-item-title>
+              <v-icon>{{ mdiCommentCheckOutline }}</v-icon>
+              Review</v-list-item-title
+            >
+          </v-list-item>
           <v-list-item @click="logout">
             <v-list-item-title>
               <v-icon>{{ mdiExitRun }}</v-icon>
@@ -36,7 +42,12 @@
 </template>
 
 <script>
-import { mdiExitRun, mdiAccountCircle, mdiTextToSpeech } from "@mdi/js";
+import {
+  mdiExitRun,
+  mdiCommentCheckOutline,
+  mdiAccountCircle,
+  mdiTextToSpeech
+} from "@mdi/js";
 import { mapState } from "vuex";
 import firebase from "firebase/app";
 import { db } from "./plugins/db";
@@ -46,7 +57,8 @@ export default {
   data: () => ({
     mdiTextToSpeech,
     mdiExitRun,
-    mdiAccountCircle
+    mdiAccountCircle,
+    mdiCommentCheckOutline
   }),
   computed: {
     ...mapState({
