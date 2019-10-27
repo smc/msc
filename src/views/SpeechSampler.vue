@@ -100,12 +100,18 @@ export default {
       return firebase.auth().currentUser.uid;
     },
     currSentenceId() {
-      return this.sentences[this.sentenceIndex].id;
+      return (
+        this.sentences[this.sentenceIndex] &&
+        this.sentences[this.sentenceIndex].id
+      );
     }
   },
   watch: {
     sentenceIndex: function() {
       console.log(`Current sentence: ${this.sentenceIndex}`);
+      this.fetchRecording();
+    },
+    sentences: function() {
       this.fetchRecording();
     }
   },
@@ -129,6 +135,7 @@ export default {
     },
     fetchRecording() {
       this.recording = null;
+      if (!this.currSentenceId) return;
       db.collection("speech")
         .where("sentence", "==", this.currSentenceId)
         .where("user", "==", this.userId)
