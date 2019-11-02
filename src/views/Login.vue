@@ -31,7 +31,7 @@ export default {
   data() {
     return { mdiGoogle, authProvider: new firebase.auth.GoogleAuthProvider() };
   },
-  mounted: function() {
+  created: function() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.$router.replace("/record");
