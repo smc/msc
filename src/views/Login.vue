@@ -16,6 +16,7 @@
         <p>
           You also agree to publish your Name and email for attribution purposes
         </p>
+        <p>Check out the <a href="/faq">FAQ</a> page for more details.</p>
       </section>
     </v-layout>
   </v-container>
