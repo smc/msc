@@ -17,6 +17,7 @@
         <p>
           You also agree to publish your Name and email for attribution purposes
         </p>
+        <p>Check out the <a href="/faq">FAQ</a> page for more details.</p>
       </section>
     </v-layout>
   </v-container>
@@ -41,7 +42,7 @@ export default {
   components: {
     Loading
   },
-  mounted: function() {
+  created: function() {
     this.isLoading = true;
     firebase.auth().onAuthStateChanged(user => {
       this.isLoading = false;

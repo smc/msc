@@ -161,7 +161,7 @@ export default {
       this.recording = {
         sample: src
       };
-      this.persistFile(blob);
+      this.persistFile(this.currSentenceId, blob);
     },
     uuid() {
       let dt = new Date().getTime();
@@ -173,7 +173,7 @@ export default {
     },
     // Upload the generated wav file to cloud storage.
     // https://firebase.google.com/docs/storage/web/upload-files
-    persistFile(blob) {
+    persistFile(sentenceId, blob) {
       const fileName = `audio/${this.uuid()}.webm`;
       const uploadTask = storage.child(fileName).put(blob, metadata);
       this.uploading = true;
@@ -206,16 +206,16 @@ export default {
         () => {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.onUploadComplete(downloadURL, fileName);
+            this.onUploadComplete(sentenceId, downloadURL, fileName);
           });
         }
       );
     },
-    onUploadComplete: function(downloadURL, fileName) {
+    onUploadComplete: function(sentenceId, downloadURL, fileName) {
       const newRecording = {
         sample: downloadURL,
         fileName,
-        sentence: this.currSentenceId,
+        sentence: sentenceId,
         user: this.userId,
         time: +new Date()
       };
