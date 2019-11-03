@@ -38,7 +38,7 @@
                       x-large
                       @click="stopRecording"
                     >
-                      <v-icon>{{ mdiMicrophone }}</v-icon>
+                      <v-icon>{{ mdiStop }}</v-icon>
                     </v-btn>
                   </v-row>
                   <v-row align="center" justify="center">
@@ -78,7 +78,7 @@
 <script>
 import firebase from "firebase/app";
 import { db, storage } from "../plugins/db";
-import { mdiDelete, mdiThumbUp, mdiMicrophone } from "@mdi/js";
+import { mdiDelete, mdiThumbUp, mdiMicrophone, mdiStop } from "@mdi/js";
 
 const metadata = {
   contentType: "audio/webm"
@@ -88,6 +88,7 @@ export default {
   data: () => ({
     mdiDelete,
     mdiThumbUp,
+    mdiStop,
     mdiMicrophone,
     recording: null,
     sentenceIndex: 0,
