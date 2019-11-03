@@ -14,7 +14,7 @@
         </template>
 
         <v-list shaped>
-          <v-list-item>
+          <v-list-item to="/profile">
             <v-list-item-title>
               <v-icon>{{ mdiAccountCircle }}</v-icon>
               {{ user.displayName }}</v-list-item-title
@@ -83,10 +83,13 @@ export default {
     saveUser(user) {
       db.collection("users")
         .doc(user.uid)
-        .set({
-          name: user.displayName,
-          email: user.email
-        });
+        .set(
+          {
+            name: user.displayName,
+            email: user.email
+          },
+          { merge: true }
+        );
     },
     logout() {
       firebase

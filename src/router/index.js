@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Login from "@/views/Login";
 import SpeechSampler from "@/views/SpeechSampler";
 import Review from "@/views/Review";
+import Settings from "@/views/Settings";
 import Faq from "@/views/Faq";
 import store from "@/store";
 import firebase from "firebase/app";
@@ -44,6 +45,14 @@ let router = new Router({
       path: "/faq",
       name: "Faq",
       component: Faq
+    },
+    {
+      path: "/profile",
+      name: "Settings",
+      component: Settings,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });
