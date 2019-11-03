@@ -74,22 +74,13 @@ def process_input_file(infile, category, dbref):
         for sentence in file:
             dbref.add_sentence(sentence.rstrip(), category)
 
-def download_sample(fileName):
-    blob = storage.bucket().get_blob(fileName)
-    with open(fileName, "wb") as audoFile:
-        if blob:
-            audoFile.write(blob.download_as_string())
-
-def save_data(docs, outfile):
+def save_data(docs, outfile, keys):
     with open(outfile, "w") as tsvout:
         tsvout = csv.writer(tsvout, delimiter='\t')
         index=0
-        keys=[]
         for doc in docs:
             docDict=doc.to_dict()
             if index==0:
-                keys = list(docDict.keys())
-                keys.insert(0, 'id')
                 tsvout.writerow(keys)
             values=[]
             for key in keys:
@@ -97,13 +88,19 @@ def save_data(docs, outfile):
                     values.append(doc.id)
                 else:
                     values.append(docDict.get(key,'default'))
-                if key=='fileName':
-                    download_sample(docDict[key])
             tsvout.writerow(values)
             index += 1
         print('Wrote {} items to {}'.format(index, outfile))
 
-
+def download_samples():
+    print('Downloading samples...')
+    client = storage.bucket().client
+    blobs = client.list_blobs('malayalam-speech-corpora.appspot.com', prefix='audio/')
+    for blob in blobs:
+        try:
+            blob.download_to_filename(blob.name)
+        except:
+            pass
 
 def main(args=None):
     options = parse_args(args)
@@ -112,14 +109,14 @@ def main(args=None):
         process_input_file(options.infile, options.category, firestore )
     else:
         sentences=firestore.sentences.stream()
-        save_data(sentences, 'sentences.tsv')
+        save_data(sentences, 'sentences.tsv', keys=['id', 'sentence', 'category'])
         speech=firestore.speech.stream()
         shutil.rmtree('audio', ignore_errors=True)
         os.mkdir('audio')
-        save_data(speech, 'speech.tsv')
+        save_data(speech, 'speech.tsv', keys=['id', 'sentence', 'user', 'fileName','sample','time', 'vote'])
         users=firestore.users.stream()
-        save_data(users, 'users.tsv')
-
+        save_data(users, 'users.tsv', keys=['id', 'name' ])
+        download_samples()
 
 if __name__ == "__main__":
     sys.exit(main())
