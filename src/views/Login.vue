@@ -2,6 +2,7 @@
   <v-container fluid>
     <v-layout justify-center wrap class="my-4" align-center>
       <section>
+        <loading :active.sync="isLoading"> </loading>
         <v-btn x-large @click="login">
           <v-icon color="primary">{{ mdiGoogle }}</v-icon>
           Login using Google
@@ -26,14 +27,25 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import { mdiGoogle } from "@mdi/js";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   name: "Login",
   data() {
-    return { mdiGoogle, authProvider: new firebase.auth.GoogleAuthProvider() };
+    return {
+      mdiGoogle,
+      authProvider: new firebase.auth.GoogleAuthProvider(),
+      isLoading: false
+    };
+  },
+  components: {
+    Loading
   },
   created: function() {
+    this.isLoading = true;
     firebase.auth().onAuthStateChanged(user => {
+      this.isLoading = false;
       if (user) {
         this.$router.replace("/record");
       }
