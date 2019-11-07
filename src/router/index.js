@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/views/Login";
-import SpeechSampler from "@/views/SpeechSampler";
+import Recorder from "@/views/Recorder";
 import Review from "@/views/Review";
 import Settings from "@/views/Settings";
 import Faq from "@/views/Faq";
@@ -28,7 +28,7 @@ let router = new Router({
     {
       path: "/record",
       name: "Record",
-      component: SpeechSampler,
+      component: Recorder,
       meta: {
         requiresAuth: true
       }
