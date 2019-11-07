@@ -12,7 +12,7 @@
         >
           <v-sheet tile class="pa-2" min-width="100%" min-height="100%">
             <v-row align="center" justify="center">
-              <h2 class="title text-center">{{ item.sentence }}</h2>
+              <h2 lang="ml" class="title text-center">{{ item.sentence }}</h2>
             </v-row>
             <v-row align="center" justify="center" class="py-10">
               <vue-dictaphone @stop="onRecordComplete($event)">

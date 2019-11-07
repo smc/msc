@@ -12,7 +12,7 @@
         >
           <v-sheet tile min-width="100%" min-height="100%">
             <v-row align="center" justify="center" class="py-2">
-              <h2 class="title text-center">{{ sentence }}</h2>
+              <h2 lang="ml" class="title text-center">{{ sentence }}</h2>
             </v-row>
             <v-row align="end" justify="center" class="py-1">
               <audio :src="speech.sample" controls />

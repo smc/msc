@@ -104,3 +104,16 @@ export default {
   }
 };
 </script>
+<style>
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  text-align: left;
+  font-size: 1em;
+}
+
+.v-application .title:lang(ml) {
+  font-family: "Manjari", sans-serif !important;
+}
+</style>
