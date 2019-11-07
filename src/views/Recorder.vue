@@ -118,6 +118,7 @@ export default {
       this.fetchRecording();
     },
     sentences: function() {
+      this.sentenceIndex = Math.floor(Math.random() * 100);
       this.fetchRecording();
     }
   },
