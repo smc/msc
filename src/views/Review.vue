@@ -101,6 +101,7 @@ export default {
           },
           { merge: true }
         );
+      this.speechIndex++;
     }
   }
 };
