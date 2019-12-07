@@ -74,6 +74,7 @@ export default {
       this.voted = false;
     },
     speeches: function() {
+      this.speechIndex = Math.floor(Math.random() * 100);
       this.fetchSentence();
     }
   },
@@ -101,6 +102,7 @@ export default {
           },
           { merge: true }
         );
+      this.speechIndex++;
     }
   }
 };
