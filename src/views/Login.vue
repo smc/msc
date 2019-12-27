@@ -6,7 +6,12 @@
           <v-icon color="primary">{{ mdiGoogle }}</v-icon>
           Login using Google
         </v-btn>
-        <v-btn class="ma-2" x-large @click="loginByEmailLink">
+        <v-btn
+          :disabled="emailSent"
+          clas="ma-2"
+          x-large
+          @click="loginByEmailLink"
+        >
           <v-icon color="accent">{{ mdiEmail }}</v-icon>
           Login using email link
         </v-btn>
@@ -26,6 +31,9 @@
     <v-overlay :value="isLoading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
+    <v-snackbar v-model="emailSent" color="success" top>
+      An email with sign-in link has been sent to your email.
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -40,6 +48,7 @@ export default {
     return {
       mdiGoogle,
       mdiEmail,
+      emailSent: false,
       isLoading: false
     };
   },
@@ -49,25 +58,16 @@ export default {
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       var email = window.localStorage.getItem("MSCEmailForSignIn");
       if (email) {
-        firebase
-          .auth()
-          .signInWithEmailLink(email, window.location.href)
-          .then(user => {
-            this.isLoading = false;
-            if (user) {
-              this.$router.replace("/record");
-            }
-          });
+        firebase.auth().signInWithEmailLink(email, window.location.href);
       }
-    } else {
-      // Google sign in
-      firebase.auth().onAuthStateChanged(user => {
-        this.isLoading = false;
-        if (user) {
-          this.$router.replace("/record");
-        }
-      });
     }
+
+    firebase.auth().onAuthStateChanged(user => {
+      this.isLoading = false;
+      if (user) {
+        this.$router.replace("/record");
+      }
+    });
   },
   methods: {
     loginByGoogle() {
@@ -91,6 +91,7 @@ export default {
       }
       window.localStorage.setItem("MSCEmailForSignIn", email);
       firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
+      this.emailSent = true;
     }
   }
 };
