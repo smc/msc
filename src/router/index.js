@@ -15,10 +15,6 @@ let router = new Router({
   routes: [
     {
       path: "/",
-      redirect: "/login"
-    },
-    {
-      path: "/login",
       name: "Login",
       component: Login,
       meta: {
@@ -68,7 +64,7 @@ router.beforeEach((to, from, next) => {
   }
   if (requiresAuth) {
     if (!currentUser) {
-      next("login");
+      next("");
     } else {
       next("record");
     }
