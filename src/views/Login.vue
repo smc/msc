@@ -62,6 +62,8 @@ export default {
       var email = window.localStorage.getItem("MSCEmailForSignIn");
       if (email) {
         firebase.auth().signInWithEmailLink(email, window.location.href);
+        // Clear email from storage.
+        window.localStorage.removeItem("MSCEmailForSignIn");
       }
     }
 

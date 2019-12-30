@@ -2,11 +2,7 @@
   <v-container fluid>
     <v-flex xs12 lg12>
       <v-form ref="form" v-if="user">
-        <v-text-field
-          disabled
-          label="Name"
-          :value="user.displayName"
-        ></v-text-field>
+        <v-text-field label="Name" v-model="name"></v-text-field>
 
         <v-text-field
           label="E-mail"
@@ -48,6 +44,7 @@ export default {
   data() {
     return {
       mdiContentSave,
+      name,
       gender: "Male",
       genderOptions: ["Male", "Female", "Other"],
       ageGroup: "20-30",
@@ -81,15 +78,19 @@ export default {
           const docDict = doc.data();
           this.ageGroup = docDict.ageGroup;
           this.gender = docDict.gender;
+          this.name = docDict.name;
         });
     }
   },
   methods: {
     saveUser(user) {
+      console.log(user, this.name);
+
       db.collection("users")
         .doc(user.uid)
         .set(
           {
+            name: this.name,
             gender: this.gender,
             ageGroup: this.ageGroup
           },

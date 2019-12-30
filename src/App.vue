@@ -17,7 +17,7 @@
           <v-list-item to="/profile">
             <v-list-item-title>
               <v-icon>{{ mdiAccountCircle }}</v-icon>
-              {{ user.displayName }}</v-list-item-title
+              {{ user.displayName || user.email }}</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">
@@ -81,15 +81,16 @@ export default {
   },
   methods: {
     saveUser(user) {
+      const userdata = {
+        email: user.email
+      };
+      if (user.displayName) {
+        // In case of email link sign up, there wont be any display name
+        userdata.name = user.displayName;
+      }
       db.collection("users")
         .doc(user.uid)
-        .set(
-          {
-            name: user.displayName,
-            email: user.email
-          },
-          { merge: true }
-        );
+        .set(userdata, { merge: true });
     },
     logout() {
       firebase
