@@ -20,10 +20,13 @@
         </p>
         <p>
           By using this application you agree to release your contributions
-          under CC-BY-SA License
+          under
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a>
+          license.
         </p>
         <p>
-          You also agree to publish your Name and email for attribution purposes
+          You also agree to publish your name and email for attribution
+          purposes.
         </p>
         <p>Check out the <a href="/faq">FAQ</a> page for more details.</p>
       </section>
