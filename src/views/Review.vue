@@ -9,6 +9,7 @@
         <v-carousel-item
           v-for="(speech, id) in speeches"
           :key="`carousel-${id}`"
+          height="60vh"
         >
           <v-sheet tile min-width="100%" min-height="100%">
             <v-row align="center" justify="center" class="py-2">

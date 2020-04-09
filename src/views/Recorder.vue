@@ -5,7 +5,13 @@
       access.
     </template>
     <v-flex xs12 lg12>
-      <v-carousel progress show-arrows hide-delimiters v-model="sentenceIndex">
+      <v-carousel
+        progress
+        show-arrows
+        hide-delimiters
+        v-model="sentenceIndex"
+        height="60vh"
+      >
         <v-carousel-item
           v-for="(item, id) in sentences"
           :key="`carousel-${id}`"
