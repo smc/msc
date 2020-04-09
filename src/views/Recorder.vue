@@ -71,6 +71,16 @@
           <v-progress-linear v-if="uploading" :value="progress" />
         </v-carousel-item>
       </v-carousel>
+      <v-row align="center" justify="center"
+        ><v-col cols="12" lg="10">
+          <v-select
+            :items="speechCategories"
+            v-model="selectedCategory"
+            item-text="title"
+            item-value="key"
+            label="Select category"
+          ></v-select></v-col
+      ></v-row>
     </v-flex>
   </v-container>
 </template>
@@ -96,10 +106,17 @@ export default {
     speech: {},
     progress: 0,
     uploading: false,
-    showError: false
+    showError: false,
+    selectedCategory: false,
+    speechCategories: [
+      { title: "Proverbs", key: "proverb" },
+      { title: "Coversations", key: "conversation" }
+    ]
   }),
-  firestore: {
-    sentences: db.collection("sentences")
+  firestore() {
+    return {
+      sentences: db.collection("sentences")
+    };
   },
   computed: {
     userId() {
@@ -115,11 +132,27 @@ export default {
   watch: {
     sentenceIndex: function() {
       console.log(`Current sentence: ${this.sentenceIndex}`);
-      this.fetchRecording();
+      if (this.sentenceIndex >= 0) {
+        this.fetchRecording();
+      }
     },
     sentences: function() {
       this.sentenceIndex = Math.floor(Math.random() * this.sentences.length);
       this.fetchRecording();
+    },
+    selectedCategory: function() {
+      db.collection("sentences")
+        .where("category", "==", this.selectedCategory)
+        .get()
+        .then(snapshot => {
+          let sentences = [];
+          snapshot.forEach(doc => {
+            const sentence = doc.data();
+            sentence["id"] = doc.id;
+            sentences.push(sentence);
+          });
+          this.sentences = sentences;
+        });
     }
   },
   methods: {
