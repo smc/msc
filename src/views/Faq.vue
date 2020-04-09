@@ -9,6 +9,27 @@
             This project attempts to create a free licensed speech corpus of
             Malayalam language for various research purposes.
           </p>
+          <h3>How can I contribute to this project?</h3>
+          <p>
+            You can contribute by recording your voice and reviewing voices
+            recorded by others.
+          </p>
+          <h4>Record</h4>
+          <p>
+            This web application presents you sentences that you can read aloud
+            and record. It would be ideal to record it in a silent environment.
+            After every record, before moving on to the next sentence you can
+            listen to what you just recorded and verify it for clarity. In case
+            you are not satisfied, delete it and rerecord.
+          </p>
+          <h4>Review</h4>
+          <p>
+            Inorder to ensure quality of recordings, review option is provided.
+            In the review mode you will be presented with a recording and the
+            corresponding sentence. If the voice recording is a good match with
+            the setence, give an upvote else a downvote. The reviewer will not
+            be given the details of the voice owner.
+          </p>
           <h3>What license will the data collected be published?</h3>
           <p>
             The corpus will be published under
@@ -47,7 +68,11 @@
             released under CC-BY-SA license. For example, this means you can not
             just copy text from a book or website that is not released under
             CC-BY-SA license. Also, please note that by providing your own text
-            content, you agree to release it under CC-BY-SA license.
+            content, you agree to release it under CC-BY-SA license. Inorder to
+            contribute sentences visit the project
+            <a href="https://gitlab.com/smc/msc">
+              repository.
+            </a>
           </p>
         </div>
       </section>
