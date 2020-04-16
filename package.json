@@ -13,7 +13,7 @@
     "firebase-auth": "^0.1.2",
     "firebaseui": "^4.5.0",
     "vue": "^2.6.11",
-    "vue-dictaphone": "^1.2.1",
+    "vue-dictaphone": "^2.0.0",
     "vue-router": "^3.1.6",
     "vuefire": "^2.2.2",
     "vuetify": "^2.2.21",

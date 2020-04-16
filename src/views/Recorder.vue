@@ -50,6 +50,7 @@
                   <v-row align="center" justify="center">
                     <vue-dictaphone-spectrum-analyser
                       v-if="isRecording"
+                      fillStyle="#fff"
                       :width="$vuetify.breakpoint.smAndDown ? 300 : 500"
                     />
                   </v-row>
