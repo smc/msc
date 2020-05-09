@@ -140,12 +140,12 @@ export default {
     sentenceIndex: function() {
       console.log(`Current sentence: ${this.sentenceIndex}`);
       if (this.sentenceIndex >= 0) {
-        this.fetchRecording();
+        this.next();
       }
     },
     sentences: function() {
       this.sentenceIndex = Math.floor(Math.random() * this.sentences.length);
-      this.fetchRecording();
+      this.next();
     },
     selectedCategory: function() {
       db.collection("sentences")
@@ -163,6 +163,20 @@ export default {
     }
   },
   methods: {
+    // Fetch the next sentence that require recording.
+    async next() {
+      // sentences with non-approved recording by current user.
+      // sentences not having any recording by current user
+      const recording = await this.fetchRecording();
+      console.log(recording);
+      if (!recording || recording.vote < 3) {
+        this.recording = recording;
+      } else {
+        console.log("Skipping the current sentence");
+
+        this.sentenceIndex++;
+      }
+    },
     handleError() {
       this.showError = true;
     },
@@ -180,18 +194,22 @@ export default {
       }
       this.recording = null;
     },
-    fetchRecording() {
+    async fetchRecording() {
       this.recording = null;
       if (!this.currSentenceId) return;
-      db.collection("speech")
+      return db
+        .collection("speech")
         .where("sentence", "==", this.currSentenceId)
         .where("user", "==", this.userId)
         .get()
         .then(querySnapshot => {
+          let recording;
           querySnapshot.forEach(doc => {
-            this.recording = doc.data();
-            this.recording["id"] = doc.id;
+            recording = doc.data();
+            recording["vote"] = recording["vote"] || 0;
+            recording["id"] = doc.id;
           });
+          return recording;
         })
         .catch(error => {
           console.log(`Error getting documents: ${error}`);
