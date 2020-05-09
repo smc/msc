@@ -57,9 +57,6 @@ export default {
     voted: false,
     showError: false
   }),
-  firestore: {
-    speeches: db.collection("speech")
-  },
   computed: {
     userId() {
       return firebase.auth().currentUser.uid;
@@ -73,11 +70,24 @@ export default {
       console.log(`Current speech: ${this.speechIndex}`);
       this.fetchSentence();
       this.voted = false;
-    },
-    speeches: function() {
-      this.speechIndex = Math.floor(Math.random() * this.speeches.length);
-      this.fetchSentence();
     }
+  },
+  created: function() {
+    db.collection("speech")
+      .where("vote", "<", 4)
+      .where("vote", ">", -4)
+      .get()
+      .then(snapshot => {
+        let speeches = [];
+        snapshot.forEach(doc => {
+          const speech = doc.data();
+          if (speech.user === this.userId) return;
+          speech["id"] = doc.id;
+          speeches.push(speech);
+        });
+        this.speeches = speeches;
+        this.speechIndex = Math.floor(Math.random() * this.speeches.length);
+      });
   },
   methods: {
     handleError() {
