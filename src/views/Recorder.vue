@@ -117,7 +117,8 @@ export default {
     selectedCategory: false,
     speechCategories: [
       { title: "Proverbs", key: "proverb" },
-      { title: "Coversations", key: "conversation" }
+      { title: "Coversations", key: "conversation" },
+      { title: "Stories", key: "story" }
     ]
   }),
   firestore() {
