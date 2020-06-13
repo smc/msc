@@ -74,14 +74,14 @@ export default {
   },
   created: function() {
     db.collection("speech")
-      .where("vote", "<", 4)
-      .where("vote", ">", -4)
       .get()
       .then(snapshot => {
         let speeches = [];
         snapshot.forEach(doc => {
           const speech = doc.data();
           if (speech.user === this.userId) return;
+          if (speech.vote > 3) return;
+          if (speech.vote < -3) return;
           speech["id"] = doc.id;
           speeches.push(speech);
         });
