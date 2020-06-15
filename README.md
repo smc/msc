@@ -43,3 +43,7 @@ npm run test
 ```lang=bash
 npm run lint
 ```
+
+### Third Party Sources
+
+Links to certain third party sources of Malayalam Speech corpus are present in the directory `thirdparty`. Refer and follow the licenses of the third party directories as mentioned in the respective sources.
