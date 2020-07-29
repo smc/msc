@@ -111,12 +111,12 @@ def main(args=None):
         sentences=firestore.sentences.stream()
         save_data(sentences, 'sentences.tsv', keys=['id', 'sentence', 'category'])
         speech=firestore.speech.stream()
-        shutil.rmtree('audio', ignore_errors=True)
-        os.mkdir('audio')
         save_data(speech, 'speech.tsv', keys=['id', 'sentence', 'user', 'fileName','sample','time', 'vote'])
         users=firestore.users.stream()
-        save_data(users, 'users.tsv', keys=['id', 'name' ])
-        download_samples()
+        save_data(users, 'users.tsv', keys=['id', 'name', 'gender', 'ageGroup' ])
+        # shutil.rmtree('audio', ignore_errors=True)
+        # os.mkdir('audio')
+        # download_samples()
 
 if __name__ == "__main__":
     sys.exit(main())
