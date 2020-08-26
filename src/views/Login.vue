@@ -29,6 +29,12 @@
           purposes.
         </p>
         <p>Check out the <a href="/faq">FAQ</a> page for more details.</p>
+        <p>
+          Curated collection of speech samples collected using this tool is now
+          <a href="https://blog.smc.org.in/malayalam-speech-corpus/"
+            >published as Malayalam Speech Corpus</a
+          >
+        </p>
       </section>
     </v-layout>
     <v-overlay :value="isLoading">
