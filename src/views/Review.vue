@@ -73,15 +73,16 @@ export default {
     }
   },
   created: function() {
+    console.log("Review created", this.userId);
     db.collection("speech")
+      .where("vote", "in", [-1, -2, 0, 1, 2, "default"])
+      .limit(50)
       .get()
       .then(snapshot => {
         let speeches = [];
         snapshot.forEach(doc => {
           const speech = doc.data();
           if (speech.user === this.userId) return;
-          if (speech.vote > 3) return;
-          if (speech.vote < -3) return;
           speech["id"] = doc.id;
           speeches.push(speech);
         });

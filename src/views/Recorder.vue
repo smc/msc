@@ -169,7 +169,6 @@ export default {
       // sentences with non-approved recording by current user.
       // sentences not having any recording by current user
       const recording = await this.fetchRecording();
-      console.log(recording);
       if (!recording || recording.vote < 3) {
         this.recording = recording;
       } else {
@@ -202,6 +201,7 @@ export default {
         .collection("speech")
         .where("sentence", "==", this.currSentenceId)
         .where("user", "==", this.userId)
+        .where("vote", "in", [1, 2, "default", -1, -2, -3])
         .get()
         .then(querySnapshot => {
           let recording;
