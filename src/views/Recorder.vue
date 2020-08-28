@@ -123,7 +123,7 @@ export default {
   }),
   firestore() {
     return {
-      sentences: db.collection("sentences")
+      sentences: db.collection("sentences").limit(50)
     };
   },
   computed: {
