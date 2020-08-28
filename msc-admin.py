@@ -92,10 +92,10 @@ def save_data(docs, outfile, keys):
             index += 1
         print('Wrote {} items to {}'.format(index, outfile))
 
-def download_samples():
-    print('Downloading samples...')
+def download_samples(speech_filename):
+    # print('Downloading samples...', speech_filename)
     client = storage.bucket().client
-    blobs = client.list_blobs('malayalam-speech-corpora.appspot.com', prefix='audio/')
+    blobs = client.list_blobs('malayalam-speech-corpora.appspot.com', prefix=speech_filename)
     for blob in blobs:
         try:
             blob.download_to_filename(blob.name)
@@ -111,12 +111,16 @@ def main(args=None):
         sentences=firestore.sentences.stream()
         save_data(sentences, 'sentences.tsv', keys=['id', 'sentence', 'category'])
         speech=firestore.speech.stream()
-        shutil.rmtree('audio', ignore_errors=True)
-        os.mkdir('audio')
         save_data(speech, 'speech.tsv', keys=['id', 'sentence', 'user', 'fileName','sample','time', 'vote'])
         users=firestore.users.stream()
-        save_data(users, 'users.tsv', keys=['id', 'name' ])
-        download_samples()
+        save_data(users, 'users.tsv', keys=['id', 'name', 'gender', 'ageGroup' ])
+        shutil.rmtree('audio', ignore_errors=True)
+        os.mkdir('audio')
+        f = open('speech.tsv')
+        speech_tsvfile = csv.reader(f,delimiter="\t")
+        for columns in speech_tsvfile:
+            speech_filename = columns[3]
+            download_samples(speech_filename)
 
 if __name__ == "__main__":
     sys.exit(main())
