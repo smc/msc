@@ -14,7 +14,7 @@
           <h3>How can I contribute to this project?</h3>
           <p>
             You can contribute by recording your voice and reviewing voices
-            recorded by others.
+            recorded by others. (<a href="../usage">ഉപയോഗക്രമം മലയാളത്തിൽ</a>)
           </p>
           <h4>Record</h4>
           <p>
@@ -42,8 +42,16 @@
           <h3>Why do you need me to login to contribute?</h3>
           <p>
             Since the data will be published in CC-BY-SA license, we require
-            your name and email address to properly attribute your contributions
-            to you.
+            your name to properly attribute your contributions to you. Your
+            email address will not be published.
+          </p>
+          <h3>If I do not want attribution, can I contribute anonymously?</h3>
+          <p>
+            Still you need to login to track unique identity. This is important
+            to avoid you recording the same sentence multiple times, to present
+            you with others voice for review and not your own etc. Also this
+            prevents unintentional spamming. You can always opt out from
+            providing your name, age or gender information.
           </p>
           <h3>Isn't Mozilla Common Voice also doing something similar?</h3>
           <p>
