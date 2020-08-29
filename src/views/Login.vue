@@ -3,8 +3,8 @@
     <v-layout justify-center wrap class="my-4" align-center>
       <section>
         <v-btn class="ma-2" x-large @click="loginByGoogle">
-          <v-icon color="primary">{{ mdiGoogle }}</v-icon>
-          Login using Google
+          <v-icon color="primary">{{ mdiGoogle }}</v-icon
+          >Login using Google
         </v-btn>
         <v-btn
           :disabled="emailSent"
@@ -12,8 +12,8 @@
           x-large
           @click="loginByEmailLink"
         >
-          <v-icon color="accent">{{ mdiEmail }}</v-icon>
-          Login using email link
+          <v-icon color="accent">{{ mdiEmail }}</v-icon
+          >Login using email link
         </v-btn>
         <p>
           <strong>Note</strong>
@@ -24,25 +24,28 @@
           <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a>
           license.
         </p>
+        <p>You also agree to publish your name for attribution purposes.</p>
         <p>
-          You also agree to publish your name and email for attribution
-          purposes.
+          Check out the
+          <a href="/faq">FAQ</a> page for more details.
         </p>
-        <p>Check out the <a href="/faq">FAQ</a> page for more details.</p>
         <p>
           Curated collection of speech samples collected using this tool is now
           <a href="https://blog.smc.org.in/malayalam-speech-corpus/"
             >published as Malayalam Speech Corpus</a
           >
         </p>
+        <p>
+          <a href="/Usage">ഞാൻ ഈ ആപ്പ്ലിക്കേഷൻ എങ്ങനെ ഉപയോഗിക്കും?</a>
+        </p>
       </section>
     </v-layout>
     <v-overlay :value="isLoading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
-    <v-snackbar v-model="emailSent" color="success" top>
-      An email with sign-in link has been sent to your email.
-    </v-snackbar>
+    <v-snackbar v-model="emailSent" color="success" top
+      >An email with sign-in link has been sent to your email.</v-snackbar
+    >
   </v-container>
 </template>
 

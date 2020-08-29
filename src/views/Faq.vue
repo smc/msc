@@ -6,8 +6,10 @@
         <div>
           <h3>What is this project all about?</h3>
           <p>
-            This project attempts to create a free licensed speech corpus of
-            Malayalam language for various research purposes.
+            This application collects speech read by contributors to publish a
+            free licensed speech corpus of Malayalam language for various
+            research purposes. We have published the curated corpus
+            <a href="https://blog.smc.org.in/malayalam-speech-corpus/">here</a>
           </p>
           <h3>How can I contribute to this project?</h3>
           <p>

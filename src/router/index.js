@@ -7,6 +7,7 @@ import Settings from "@/views/Settings";
 import Faq from "@/views/Faq";
 import store from "@/store";
 import firebase from "firebase/app";
+import Usage from "@/views/Usage";
 
 Vue.use(Router);
 
@@ -48,6 +49,14 @@ let router = new Router({
       component: Settings,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: "/usage",
+      name: "usage",
+      component: Usage,
+      meta: {
+        requiresAuth: false
       }
     }
   ]
