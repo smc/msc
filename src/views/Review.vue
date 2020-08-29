@@ -70,10 +70,13 @@ export default {
       console.log(`Current speech: ${this.speechIndex}`);
       this.fetchSentence();
       this.voted = false;
+      if (this.speechIndex >= 49) {
+        // fetch fresh items
+        this.$router.go();
+      }
     }
   },
   created: function() {
-    console.log("Review created", this.userId);
     db.collection("speech")
       .where("vote", "in", [-1, -2, 0, 1, 2, "default"])
       .limit(50)
