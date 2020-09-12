@@ -78,7 +78,6 @@ export default {
   },
   created: function() {
     db.collection("speech")
-      .where("vote", "in", [-1, -2, 0, 1, 2, "default"])
       .limit(50)
       .get()
       .then(snapshot => {
