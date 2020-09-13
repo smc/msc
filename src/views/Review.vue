@@ -70,31 +70,32 @@ export default {
       console.log(`Current speech: ${this.speechIndex}`);
       this.fetchSentence();
       this.voted = false;
-      if (this.speechIndex >= 49) {
-        // fetch fresh items
-        this.$router.go();
-      }
     }
   },
   created: function() {
-    db.collection("speech")
-      .limit(50)
-      .get()
-      .then(snapshot => {
-        let speeches = [];
-        snapshot.forEach(doc => {
-          const speech = doc.data();
-          if (speech.user === this.userId) return;
-          if (speech.vote >= 3) return;
-          if (speech.vote <= -3) return;
-          speech["id"] = doc.id;
-          speeches.push(speech);
-        });
-        this.speeches = speeches;
-        this.speechIndex = Math.floor(Math.random() * this.speeches.length);
-      });
+    this.fetch();
   },
   methods: {
+    fetch() {
+      db.collection("speech")
+        .where("vote", "<", 3)
+        .where("vote", ">", -3)
+        .limit(100)
+        .get()
+        .then(snapshot => {
+          let speeches = [];
+          snapshot.forEach(doc => {
+            const speech = doc.data();
+            if (speech.user === this.userId) return;
+            if (speech.vote >= 3) return;
+            if (speech.vote <= -3) return;
+            speech["id"] = doc.id;
+            speeches.push(speech);
+          });
+          this.speeches = speeches;
+          this.speechIndex = Math.floor(Math.random() * this.speeches.length);
+        });
+    },
     handleError() {
       this.showError = true;
     },
