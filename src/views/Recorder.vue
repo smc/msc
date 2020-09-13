@@ -284,6 +284,7 @@ export default {
         fileName,
         sentence: sentenceId,
         user: this.userId,
+        vote: 0,
         time: +new Date()
       };
       this.recording = newRecording;
